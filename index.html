@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>厦门游学考察报告 2025</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 React 和 ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <!-- 引入 Babel 用于解析 JSX -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- 设置基础样式 -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        /* 自定义滚动条 */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // 提取 React 钩子
+        const { useState, useEffect } = React;
+
+        // --- 1. 图标组件定义 (内联 SVG) ---
+        const IconBase = ({ children, size = 24, className = "" }) => (
+            <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className={className}>{children}</svg>
+        );
+
+        const MapPin = (p) => <IconBase {...p}><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></IconBase>;
+        const Calendar = (p) => <IconBase {...p}><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></IconBase>;
+        const Users = (p) => <IconBase {...p}><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></IconBase>;
+        const TrendingUp = (p) => <IconBase {...p}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></IconBase>;
+        const BookOpen = (p) => <IconBase {...p}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></IconBase>;
+        const Utensils = (p) => <IconBase {...p}><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></IconBase>;
+        const ChevronDown = (p) => <IconBase {...p}><path d="m6 9 6 6 6-6"/></IconBase>;
+        const Clock = (p) => <IconBase {...p}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></IconBase>;
+        const ArrowRight = (p) => <IconBase {...p}><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></IconBase>;
+        const DollarSign = (p) => <IconBase {...p}><line x1="12" x2="12" y1="2" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></IconBase>;
+        const Award = (p) => <IconBase {...p}><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></IconBase>;
+        const Camera = (p) => <IconBase {...p}><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></IconBase>;
+        const ImageIcon = (p) => <IconBase {...p}><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></IconBase>;
+        const ArrowLeft = (p) => <IconBase {...p}><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></IconBase>;
+        const Filter = (p) => <IconBase {...p}><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></IconBase>;
+        const AlertCircle = (p) => <IconBase {...p}><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></IconBase>;
+        const Smartphone = (p) => <IconBase {...p}><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></IconBase>;
+        const Video = (p) => <IconBase {...p}><path d="m22 8-6 4 6 4V8Z"/><rect x="2" y="6" width="14" height="12" rx="2" ry="2"/></IconBase>;
+        const Globe = (p) => <IconBase {...p}><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></IconBase>;
+        const Briefcase = (p) => <IconBase {...p}><rect width="20" height="14" x="2" y="7" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></IconBase>;
+        const Wallet = (p) => <IconBase {...p}><path d="M21 12V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2h-6a2 2 0 0 0-2 2v0a2 2 0 0 0 2 2h6Z"/></IconBase>;
+        const Plane = (p) => <IconBase {...p}><path d="M2 12h20"/><path d="M13 2v20"/><path d="M4.93 4.93 19.07 19.07"/></IconBase>;
+        const BarChart = (p) => <IconBase {...p}><line x1="12" x2="12" y1="20" y2="10"/><line x1="18" x2="18" y1="20" y2="4"/><line x1="6" x2="6" y1="20" y2="16"/></IconBase>;
+        const Shield = (p) => <IconBase {...p}><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></IconBase>;
+        const Scale = (p) => <IconBase {...p}><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/></IconBase>;
+        const Eye = (p) => <IconBase {...p}><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></IconBase>;
+        const Mic2 = (p) => <IconBase {...p}><path d="m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98l9.06-9.04"/><path d="M12 8a2.83 2.83 0 1 1 3.98 3.98l-9.06 9.04"/><line x1="12" x2="16" y1="12" y2="16"/></IconBase>;
+        const Lock = (p) => <IconBase {...p}><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></IconBase>;
+        const Vote = (p) => <IconBase {...p}><path d="m9 12 2 2 4-4"/><path d="M5 7c0-1.1.9-2 2-2h10a2 2 0 0 1 2 2v12H5V7Z"/><path d="M22 19H2"/></IconBase>;
+
+        // --- 2. 数据常量 ---
+        const GALLERY_IMAGES = [
+            { id: 1, category: 'history', src: "c1.jpg", title: "", desc: "" },
+            { id: 2, category: 'economics', src: "c2.jpg", title: "", desc: "" },
+            { id: 3, category: 'food', src: "c3.jpg", title: "", desc: "" },
+            { id: 4, category: 'history', src: "c4.jpg", title: "", desc: "" },
+            { id: 5, category: 'economics', src: "c5.jpg", title: "", desc: "" },
+            { id: 6, category: 'food', src: "c6.jpg", title: "", desc: "" },
+            { id: 7, category: 'team', src: "c7.jpg", title: "", desc: "" },
+            { id: 8, category: 'history', src: "c8.jpg", title: "", desc: "" },
+            { id: 9, category: 'food', src: "c9.jpg", title: "", desc: "" },
+            { id: 10, category: 'team', src: "c10.jpg", title: "", desc: "" },
+        ];
+
+        const CATEGORIES = [
+            { id: 'all', label: '全部影像' },
+            { id: 'economics', label: '经济调研' },
+            { id: 'history', label: '历史光影' },
+            { id: 'food', label: '美食足迹' },
+            { id: 'team', label: '团队花絮' },
+        ];
+
+        // --- 3. 组件定义 ---
+
+        // 图片综合页面视图
+        function GalleryView({ onBack }) {
+            const [filter, setFilter] = useState('all');
+
+            const filteredImages = filter === 'all' 
+                ? GALLERY_IMAGES 
+                : GALLERY_IMAGES.filter(img => img.category === filter);
+
+            return (
+                <div className="min-h-screen bg-white pt-24 pb-20">
+                    {/* 页面头部 */}
+                    <div className="container mx-auto px-6 mb-12">
+                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div>
+                                <div className="flex items-center gap-2 text-blue-600 font-medium mb-2">
+                                    <Camera size={20} />
+                                    <span>影像纪实</span>
+                                </div>
+                                <h1 className="text-4xl font-bold text-slate-900">游学考察影像集</h1>
+                                <p className="text-slate-500 mt-2 max-w-xl">
+                                    透过镜头记录厦门的城市肌理、市井烟火与团队足迹。
+                                </p>
+                            </div>
+                            <button 
+                                onClick={onBack}
+                                className="flex items-center gap-2 px-5 py-2.5 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-700 transition-colors self-start md:self-center"
+                            >
+                                <ArrowLeft size={18} /> 返回报告
+                            </button>
+                        </div>
+
+                        {/* 过滤器 */}
+                        <div className="flex flex-wrap gap-2 mt-8">
+                            <div className="flex items-center text-slate-400 mr-2">
+                                <Filter size={16} />
+                            </div>
+                            {CATEGORIES.map(cat => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => setFilter(cat.id)}
+                                    className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all ${
+                                        filter === cat.id 
+                                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30' 
+                                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                                    }`}
+                                >
+                                    {cat.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* 图片网格 */}
+                    <div className="container mx-auto px-6">
+                        <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+                            {filteredImages.map((img) => (
+                                <div key={img.id} className="break-inside-avoid group relative rounded-xl overflow-hidden bg-slate-100 shadow-sm hover:shadow-xl transition-all duration-300">
+                                    <img 
+                                        src={img.src} 
+                                        alt="" 
+                                        className="w-full h-auto object-cover transition-transform duration-700 group-hover:scale-105"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.style.display = 'none'; // 隐藏加载失败的图片
+                                        }}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        
+                        {filteredImages.length === 0 && (
+                            <div className="text-center py-20 text-slate-400">
+                                <ImageIcon size={48} className="mx-auto mb-4 opacity-50" />
+                                <p>该分类下暂无照片</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+
+        // 报告主页视图
+        function ReportView({ scrollToSection }) {
+            return (
+                <React.Fragment>
+                    {/* Hero Section */}
+                    <section id="home" className="relative h-screen flex items-center justify-center overflow-hidden">
+                        <div className="absolute inset-0 bg-blue-900">
+                            <img 
+                                src="1.jpg" 
+                                alt="Xiamen Sea" 
+                                className="w-full h-full object-cover opacity-60 mix-blend-overlay"
+                                onError={(e) => e.target.style.display = 'none'}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-blue-900/80 to-transparent"></div>
+                        </div>
+
+                        <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6 animate-fade-in-up">
+                                <Calendar size={16} />
+                                <span className="text-sm tracking-wider">2025.11.12 - 11.17</span>
+                            </div>
+                            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight leading-tight">
+                                行走在海风与历史之间
+                            </h1>
+                            <p className="text-xl md:text-2xl text-blue-100 mb-10 font-light max-w-2xl mx-auto">
+                                关于城市购买力、地缘政治与饮食文化的实地学术考察报告
+                            </p>
+                            <div className="flex justify-center gap-4">
+                                <button 
+                                    onClick={() => scrollToSection('intro')}
+                                    className="px-8 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition-all shadow-lg shadow-blue-500/30 flex items-center gap-2"
+                                >
+                                    阅读报告 <ArrowRight size={18} />
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-white/50">
+                            <ChevronDown size={32} />
+                        </div>
+                    </section>
+
+                    {/* 游学概况 */}
+                    <section id="intro" className="py-20 bg-white">
+                        <div className="container mx-auto px-6 max-w-5xl">
+                            <div className="grid md:grid-cols-2 gap-12 items-center">
+                                <div className="space-y-6">
+                                    <h2 className="text-3xl font-bold text-slate-900 flex items-center gap-3">
+                                        <MapPin className="text-blue-500" />
+                                        游学背景与目的
+                                    </h2>
+                                    <p className="text-slate-600 leading-relaxed text-lg">
+                                        在为期6天的行程中，我们小组深入厦门岛内外，试图透过表面繁荣的旅游业，探寻这座城市的经济肌理与历史脉络。
+                                    </p>
+                                    <p className="text-slate-600 leading-relaxed">
+                                        本次考察不仅仅是一次旅行，更是一次基于社会科学视角的田野调查。我们走访了当地市场、博物馆以及老街区，收集了大量一手数据，旨在从<strong>经济、历史、文化</strong>三个维度解构厦门的独特魅力。
+                                    </p>
+                                    <div className="grid grid-cols-2 gap-4 pt-4">
+                                        <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
+                                            <div className="text-3xl font-bold text-blue-600 mb-1">6<span className="text-sm text-slate-500 ml-1">天</span></div>
+                                            <div className="text-sm text-slate-600">实地考察时长</div>
+                                        </div>
+                                        <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100">
+                                            <div className="text-3xl font-bold text-indigo-600 mb-1">3<span className="text-sm text-slate-500 ml-1">个</span></div>
+                                            <div className="text-sm text-slate-600">核心研究课题</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="relative">
+                                    <div className="absolute -inset-4 bg-blue-100 rounded-2xl transform rotate-3 -z-10"></div>
+                                    <img 
+                                        src="1.jpg" 
+                                        alt="Overview" 
+                                        className="rounded-xl shadow-xl w-full object-cover h-80"
+                                        onError={(e) => {
+                                            e.target.onerror = null;
+                                            e.target.style.display = 'none';
+                                        }}
+                                    />
+                                    <div className="absolute -bottom-6 -right-6 bg-white p-4 rounded-lg shadow-lg max-w-xs hidden md:block">
+                                        <p className="text-xs text-slate-500 italic">"读万卷书，行万里路。"</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 课题一：购买力调研 */}
+                    <section id="economics" className="py-20 bg-slate-50">
+                        <div className="container mx-auto px-6 max-w-6xl">
+                            <div className="mb-12 text-center">
+                                <span className="text-blue-600 font-semibold tracking-wider text-sm uppercase">Academic Topic I</span>
+                                <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mt-2">城市人民时薪购买力调查</h2>
+                                <div className="w-20 h-1 bg-blue-500 mx-auto mt-4"></div>
+                            </div>
+
+                            {/* 调研背景说明板块 */}
+                            <div className="bg-blue-50 p-6 rounded-xl border border-blue-100 mb-12 max-w-4xl mx-auto">
+                                <div className="flex gap-4">
+                                    <div className="p-3 bg-blue-100 text-blue-600 rounded-full h-fit flex-shrink-0">
+                                        <Users size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-lg font-bold text-blue-900 mb-2">调研对象：厦门安保人员</h3>
+                                        <p className="text-slate-700 leading-relaxed">
+                                            我们重点调研了厦门安保人员（保安）的真实收入情况，以此为基准时薪，计算了其在厦门当地的实际购买力水平。调研发现，尽管名义上的法定标准存在，但实际的一线时薪远低于此，这直接影响了基层劳动者的生活质量。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 顶部数据展示：两个时薪对比 */}
+                            <div className="grid md:grid-cols-2 gap-8 mb-12">
+                                {/* 实际时薪 */}
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-red-200 relative overflow-hidden flex flex-col justify-between group hover:border-red-400 transition-colors">
+                                    <div className="absolute right-0 top-0 p-1.5 bg-red-600 text-white text-xs font-bold rounded-bl-lg uppercase tracking-wider">Cruel Reality</div>
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="p-2 bg-red-100 text-red-600 rounded-lg">
+                                                <DollarSign size={20} />
+                                            </div>
+                                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Interviewed Data</span>
+                                        </div>
+                                        <h3 className="text-lg font-bold text-slate-800 leading-tight mb-2">实际采访最低时薪</h3>
+                                    </div>
+                                    <div className="mt-4">
+                                        <div className="text-5xl font-black text-red-600 tracking-tighter">11.0 <span className="text-sm font-medium text-slate-400">RMB</span></div>
+                                        <p className="text-xs text-red-500 mt-3 leading-tight flex items-start gap-1 font-medium">
+                                            <AlertCircle size={12} className="mt-0.5 flex-shrink-0"/>
+                                            社会底层的生存红线，远低于法定标准
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* 法定时薪 */}
+                                <div className="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col justify-between opacity-70 hover:opacity-100 transition-opacity">
+                                    <div>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="p-2 bg-slate-200 text-slate-500 rounded-lg">
+                                                <Award size={20} />
+                                            </div>
+                                            <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Legal Standard</span>
+                                        </div>
+                                        <h3 className="text-lg font-bold text-slate-600 leading-tight mb-2">法定非全日制时薪</h3>
+                                    </div>
+                                    <div className="mt-4">
+                                        <div className="text-4xl font-bold text-slate-500 tracking-tighter">23.5 <span className="text-sm font-medium text-slate-400">RMB</span></div>
+                                        <p className="text-xs text-slate-400 mt-3 leading-tight">
+                                            厦门市人力资源和社会保障局标准
+                                            <br/>(仅存在于文件中的数字)
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 核心对比：中国 vs 澳洲 */}
+                            <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden mb-16">
+                                <div className="p-10 bg-slate-950 text-white text-center relative overflow-hidden">
+                                    <div className="relative z-10">
+                                        <h3 className="text-2xl md:text-5xl font-black mb-3 tracking-tighter">PURCHASING POWER PARITY</h3>
+                                        <div className="flex justify-center items-center gap-2 text-yellow-500 font-serif italic text-lg mb-1">
+                                            <span className="w-8 h-[1px] bg-yellow-500/50"></span>
+                                            购买力平价 · 劳动价值残酷真相
+                                            <span className="w-8 h-[1px] bg-yellow-500/50"></span>
+                                        </div>
+                                        <p className="text-slate-500 text-[10px] tracking-[0.3em] uppercase mt-4">The Absolute Gap of Survival vs Living</p>
+                                    </div>
+                                    <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-20"></div>
+                                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-slate-900 to-transparent"></div>
+                                </div>
+                                
+                                <div className="grid md:grid-cols-2 divide-y md:divide-y-0 md:divide-x divide-slate-300">
+                                    {/* 中国板块 - 黑暗/压抑风格 */}
+                                    <div className="p-8 bg-[#e5e5e5] relative overflow-hidden">
+                                        <div className="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/stardust.png')]"></div>
+                                        
+                                        <div className="flex items-center gap-4 mb-8 pb-4 border-b border-slate-300/50 relative z-10">
+                                            <div className="w-16 h-16 bg-slate-300 rounded-full flex items-center justify-center text-slate-600 font-black text-3xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.3)]">CN</div>
+                                            <div>
+                                                <div className="font-bold text-slate-800 text-xl tracking-tight">中国厦门 (Xiamen)</div>
+                                                <div className="text-red-700 font-mono font-bold flex items-center gap-2 text-lg">
+                                                    ¥11.0 <span className="text-xs text-slate-500 font-normal">/ Hour (Low Value Labor)</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="space-y-8 relative z-10">
+                                            {/* iPhone Item */}
+                                            <div className="relative">
+                                                <div className="flex justify-between text-sm mb-2 font-bold text-slate-800">
+                                                    <span className="flex items-center gap-2"><Smartphone size={16}/> iPhone 17 (¥5999)</span>
+                                                    <span className="text-red-700 font-black">545 Hours</span>
+                                                </div>
+                                                <div className="w-full bg-slate-300 rounded-sm h-6 overflow-hidden border border-slate-400/50">
+                                                    <div className="bg-red-700 h-full w-full flex items-center justify-center text-[10px] text-white tracking-widest font-black uppercase">Unachievable Dream</div>
+                                                </div>
+                                                <div className="text-xs text-red-600 mt-2 font-bold flex items-center gap-1">
+                                                    <AlertCircle size={10} /> 阶级跨越的屏障：需不吃不喝连续工作 68 天
+                                                </div>
+                                            </div>
+
+                                            {/* Coffee Item */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-2 text-slate-700 font-medium">
+                                                    <span>瑞幸咖啡 (¥16)</span>
+                                                    <span className="font-mono font-bold text-slate-900">1.5 Hours</span>
+                                                </div>
+                                                <div className="w-full bg-slate-300 rounded-sm h-3 border border-slate-400/30">
+                                                    <div className="bg-slate-600 h-full w-full"></div>
+                                                </div>
+                                                <div className="text-xs text-slate-500 mt-1 font-medium italic">"被剥夺的日常享受，奢侈的提神剂"</div>
+                                            </div>
+
+                                            {/* Noodles Item */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-2 text-slate-700 font-medium">
+                                                    <span>普通沙茶面 (¥20)</span>
+                                                    <span className="font-mono font-bold text-slate-900">1.8 Hours</span>
+                                                </div>
+                                                <div className="w-full bg-slate-300 rounded-sm h-3 border border-slate-400/30">
+                                                    <div className="bg-slate-600 h-full w-full"></div>
+                                                </div>
+                                                <div className="text-xs text-slate-500 mt-1 font-medium italic">"仅够维持温饱，毫无生活尊严"</div>
+                                            </div>
+
+                                            {/* BRT Item */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-2 text-slate-700 font-medium">
+                                                    <span>BRT 公交 (¥2)</span>
+                                                    <span className="font-mono font-bold text-slate-900">11 Mins</span>
+                                                </div>
+                                                <div className="w-full bg-slate-300 rounded-sm h-3 border border-slate-400/30">
+                                                    <div className="bg-slate-500 h-full w-[18%]"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* 澳洲板块 - 黄金/奢华风格 */}
+                                    <div className="p-8 bg-gradient-to-br from-slate-50 to-[#fffbeb] relative">
+                                        <div className="absolute top-0 right-0 bg-yellow-500 text-yellow-950 text-xs font-black px-4 py-1.5 rounded-bl-xl shadow-lg uppercase tracking-widest">Golden Standard</div>
+                                        
+                                        <div className="flex items-center gap-4 mb-8 pb-4 border-b border-yellow-200">
+                                            <div className="w-16 h-16 bg-gradient-to-br from-yellow-100 to-yellow-300 text-yellow-800 rounded-full flex items-center justify-center font-black text-3xl shadow-lg shadow-yellow-200/50">AU</div>
+                                            <div>
+                                                <div className="font-bold text-yellow-900 text-xl flex items-center gap-2 tracking-tight">
+                                                    Australia
+                                                    <Award size={20} className="text-yellow-500 fill-yellow-500 animate-pulse"/>
+                                                </div>
+                                                <div className="text-yellow-600 font-mono font-black flex items-center gap-2 text-2xl drop-shadow-sm">
+                                                    A$25.0 <span className="text-xs font-bold text-yellow-600 bg-yellow-200 px-2 py-0.5 rounded-sm uppercase tracking-wide">Min/最低</span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-8">
+                                            {/* iPhone Item */}
+                                            <div className="relative group">
+                                                <div className="flex justify-between text-sm mb-2 font-bold text-yellow-900">
+                                                    <span className="flex items-center gap-2"><Smartphone size={16}/> iPhone 17 (A$1399)</span>
+                                                    <span className="text-yellow-700 font-black">56 Hours</span>
+                                                </div>
+                                                <div className="w-full bg-yellow-100/50 rounded-full h-6 overflow-hidden shadow-inner border border-yellow-200">
+                                                    <div className="bg-gradient-to-r from-yellow-400 via-yellow-300 to-yellow-500 h-full w-[10%] shadow-[0_0_15px_rgba(234,179,8,0.6)]"></div>
+                                                </div>
+                                                <div className="text-xs text-yellow-700 mt-2 font-bold flex items-center gap-1">
+                                                    <Award size={10} /> 触手可及：仅需工作 7 天 (Standard Week)
+                                                </div>
+                                            </div>
+
+                                            {/* Coffee Item */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-2 text-slate-600">
+                                                    <span>Premium Coffee (A$5)</span>
+                                                    <span className="font-mono text-yellow-600 font-bold">12 Mins</span>
+                                                </div>
+                                                <div className="w-full bg-yellow-50 rounded-full h-3 border border-yellow-100">
+                                                    <div className="bg-yellow-400 h-full w-[20%] rounded-full shadow-sm"></div>
+                                                </div>
+                                                <div className="text-xs text-yellow-600/80 mt-1 font-medium">轻松负担，如同呼吸般简单</div>
+                                            </div>
+
+                                            {/* Noodles Item */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-2 text-slate-600">
+                                                    <span>Lunch / Noodles (A$15)</span>
+                                                    <span className="font-mono text-yellow-600 font-bold">36 Mins</span>
+                                                </div>
+                                                <div className="w-full bg-yellow-50 rounded-full h-3 border border-yellow-100">
+                                                    <div className="bg-yellow-400 h-full w-[60%] rounded-full shadow-sm"></div>
+                                                </div>
+                                                <div className="text-xs text-yellow-600/80 mt-1 font-medium">半小时时薪即可享用丰盛午餐</div>
+                                            </div>
+
+                                            {/* Bus Item */}
+                                            <div>
+                                                <div className="flex justify-between text-sm mb-2 text-slate-600">
+                                                    <span>Bus / Tram (A$3)</span>
+                                                    <span className="font-mono text-yellow-600 font-bold">7 Mins</span>
+                                                </div>
+                                                <div className="w-full bg-yellow-50 rounded-full h-3 border border-yellow-100">
+                                                    <div className="bg-yellow-300 h-full w-[12%] rounded-full shadow-sm"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="bg-slate-950 p-4 text-center text-[10px] text-slate-500 border-t border-slate-800 uppercase tracking-widest font-mono">
+                                    Data Source: Field Research (CN) vs Fair Work Ombudsman (AU)
+                                </div>
+                            </div>
+
+                            {/* 新增板块：城市风貌视觉对比 (Visual Contrast) */}
+                            <div className="mb-16">
+                                <div className="text-center mb-8">
+                                    <h3 className="text-2xl font-bold text-slate-800">URBAN LANDSCAPE CONTRAST</h3>
+                                    <div className="w-20 h-1 bg-slate-800 mx-auto mt-2"></div>
+                                    <p className="text-slate-500 mt-2 tracking-widest uppercase text-xs">The Visual Evidence of Development Gap</p>
+                                </div>
+
+                                <div className="grid md:grid-cols-2 gap-0 rounded-2xl overflow-hidden shadow-2xl">
+                                    {/* China Side - Gritty & Crowded */}
+                                    <div className="relative h-64 md:h-80 group">
+                                        <img src="2.jpg" alt="Old Residential Area" className="w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 hover:brightness-100 transition-all duration-700" 
+                                            onError={(e) => {
+                                                e.target.onerror = null;
+                                                e.target.style.display = 'none';
+                                            }}
+                                        />
+                                        <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors"></div>
+                                        <div className="absolute bottom-6 left-6 text-white z-10">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <MapPin size={16} className="text-red-500" />
+                                                <span className="font-bold uppercase tracking-wider text-red-200">China (Urban Village)</span>
+                                            </div>
+                                            <p className="text-lg font-bold text-slate-100">拥挤的城中村与生存空间</p>
+                                            <p className="text-xs text-slate-400 mt-1">High Density, Low Quality of Living</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Australia Side - Modern & Prosperous */}
+                                    <div className="relative h-64 md:h-80 group">
+                                        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?q=80&w=1000&auto=format&fit=crop" alt="Sydney Skyline" className="w-full h-full object-cover" />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-yellow-900/40 to-transparent"></div>
+                                        <div className="absolute bottom-6 left-6 text-white z-10">
+                                            <div className="flex items-center gap-2 mb-1">
+                                                <MapPin size={16} className="text-yellow-400" />
+                                                <span className="font-bold uppercase tracking-wider text-yellow-200">Australia (City Center)</span>
+                                            </div>
+                                            <p className="text-lg font-bold text-white">现代化CBD与繁荣景象</p>
+                                            <p className="text-xs text-yellow-100 mt-1">World-Class Urban Planning & Prosperity</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 新增板块：生存质量鸿沟 (The Quality of Life Gap) */}
+                            <div className="grid md:grid-cols-2 gap-8 mb-16">
+                                {/* China Life - Dark & Gloomy */}
+                                <div className="bg-slate-200/80 border-t-4 border-slate-500 rounded-xl shadow-inner p-8 relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/10 pointer-events-none"></div>
+                                    <div className="absolute top-4 right-4 text-slate-400 group-hover:text-slate-600 transition-colors">
+                                        <Briefcase size={64} strokeWidth={1} />
+                                    </div>
+                                    <h3 className="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3 relative z-10">
+                                        <span className="w-2 h-8 bg-slate-600 block shadow-sm"></span> 九州 (Survival Mode)
+                                    </h3>
+                                    
+                                    <div className="space-y-8 relative z-10">
+                                        <div>
+                                            <div className="text-xs font-bold text-slate-500 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <Clock size={14} /> 平均工作时长
+                                            </div>
+                                            <div className="text-4xl font-black text-slate-700 tracking-tighter">10-12 <span className="text-sm font-medium text-slate-500">Hours/Day</span></div>
+                                            <div className="w-full bg-slate-300 h-3 mt-3 rounded-full overflow-hidden border border-slate-400/30">
+                                                <div className="bg-slate-600 w-[90%] h-full"></div>
+                                            </div>
+                                            <p className="text-xs text-red-600 mt-2 font-bold italic">"拿命换钱：高强度劳动，被透支的青春"</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="text-xs font-bold text-slate-500 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <Wallet size={14} /> 基础月薪水平
+                                            </div>
+                                            <div className="text-4xl font-black text-slate-700 tracking-tighter">¥2,500 <span className="text-sm font-medium text-slate-500">CNY (Avg)</span></div>
+                                            <div className="w-full bg-slate-300 h-3 mt-3 rounded-full overflow-hidden border border-slate-400/30">
+                                                <div className="bg-slate-500 w-[20%] h-full"></div>
+                                            </div>
+                                            <p className="text-xs text-slate-500 mt-2 font-medium italic">仅在贫困线上挣扎，无法思考未来</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="text-xs font-bold text-slate-500 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <Plane size={14} /> 护照含金量 (Passport Power)
+                                            </div>
+                                            <div className="text-xl font-bold text-slate-600">Low Mobility</div>
+                                            <div className="flex gap-1 mt-2">
+                                                {[...Array(3)].map((_, i) => <div key={i} className="h-2 w-8 bg-slate-400 rounded-sm"></div>)}
+                                                {[...Array(7)].map((_, i) => <div key={i} className="h-2 w-8 bg-slate-200 border border-slate-300 rounded-sm"></div>)}
+                                            </div>
+                                            <p className="text-xs text-red-500 mt-2 font-bold">受限的自由：签证壁垒重重，寸步难行</p>
+                                        </div>
+
+                                        {/* 新增: 生活质量指数 CN */}
+                                        <div>
+                                            <div className="text-xs font-bold text-slate-500 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <BarChart size={14} /> 平均生活质量指数 (QOL Index)
+                                            </div>
+                                            <div className="text-4xl font-black text-slate-700 tracking-tighter">13.2 <span className="text-sm font-medium text-slate-500">/ 100</span></div>
+                                            <div className="w-full bg-slate-300 h-3 mt-3 rounded-full overflow-hidden border border-slate-400/30">
+                                                <div className="bg-red-700 w-[13.2%] h-full"></div>
+                                            </div>
+                                            <p className="text-xs text-red-600 mt-2 font-bold italic">极低：环境污染、食品安全与高压力的综合体现</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Australia Life - Bright & Golden */}
+                                <div className="bg-white border-t-4 border-yellow-400 rounded-xl shadow-xl p-8 relative overflow-hidden group">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-yellow-200/20 to-orange-100/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                                    <div className="absolute top-4 right-4 text-yellow-400 group-hover:text-yellow-500 transition-colors">
+                                        <Globe size={64} strokeWidth={1} />
+                                    </div>
+                                    <h3 className="text-2xl font-black text-slate-800 mb-8 flex items-center gap-3 relative z-10">
+                                        <span className="w-2 h-8 bg-gradient-to-b from-yellow-300 to-yellow-500 block shadow-sm"></span> Australia (Life)
+                                    </h3>
+                                    
+                                    <div className="space-y-8 relative z-10">
+                                        <div>
+                                            <div className="text-xs font-bold text-yellow-700/70 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <Clock size={14} className="text-yellow-600"/> 平均工作时长
+                                            </div>
+                                            <div className="text-4xl font-black text-yellow-700 tracking-tighter">7 <span className="text-sm font-medium text-slate-400">Hours/Day</span></div>
+                                            <div className="w-full bg-yellow-50 h-3 mt-3 rounded-full overflow-hidden border border-yellow-100">
+                                                <div className="bg-yellow-400 w-[58%] h-full shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>
+                                            </div>
+                                            <p className="text-xs text-yellow-600 mt-2 font-bold">Standard 38-hour week, 完美的工作生活平衡</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="text-xs font-bold text-yellow-700/70 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <Wallet size={14} className="text-yellow-600"/> 基础月薪水平
+                                            </div>
+                                            <div className="text-4xl font-black text-yellow-600 tracking-tighter drop-shadow-sm">A$4,200 <span className="text-sm font-medium text-slate-400">AUD</span></div>
+                                            <div className="w-full bg-yellow-50 h-3 mt-3 rounded-full overflow-hidden border border-yellow-100">
+                                                <div className="bg-yellow-400 w-[95%] h-full shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>
+                                            </div>
+                                            <p className="text-xs text-yellow-600 mt-2 font-bold">≈¥20,000 RMB: 极高购买力，真正的富足</p>
+                                        </div>
+
+                                        <div>
+                                            <div className="text-xs font-bold text-yellow-700/70 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <Plane size={14} className="text-yellow-600"/> 护照含金量 (Passport Power)
+                                            </div>
+                                            <div className="text-xl font-bold text-yellow-700">Global Citizen</div>
+                                            <div className="flex gap-1 mt-2">
+                                                {[...Array(9)].map((_, i) => <div key={i} className="h-2 w-8 bg-yellow-400 rounded-sm shadow-sm"></div>)}
+                                                <div className="h-2 w-8 bg-yellow-100 border border-yellow-200 rounded-sm"></div>
+                                            </div>
+                                            <p className="text-xs text-yellow-600 mt-2 font-bold">免签180+国家：世界是你的后花园</p>
+                                        </div>
+
+                                        {/* 新增: 生活质量指数 AU */}
+                                        <div>
+                                            <div className="text-xs font-bold text-yellow-700/70 mb-2 flex items-center gap-2 uppercase tracking-wider">
+                                                <BarChart size={14} className="text-yellow-600"/> 平均生活质量指数 (QOL Index)
+                                            </div>
+                                            <div className="text-4xl font-black text-yellow-600 tracking-tighter drop-shadow-sm">79.4 <span className="text-sm font-medium text-slate-400">/ 100</span></div>
+                                            <div className="w-full bg-yellow-50 h-3 mt-3 rounded-full overflow-hidden border border-yellow-100">
+                                                <div className="bg-yellow-400 w-[79.4%] h-full shadow-[0_0_10px_rgba(250,204,21,0.5)]"></div>
+                                            </div>
+                                            <p className="text-xs text-yellow-600 mt-2 font-bold">World Class: 顶级医疗、教育与环境</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 底部证据链：Field Records */}
+                            <div className="bg-slate-100 rounded-2xl p-6 border border-slate-200">
+                                <h3 className="text-sm font-bold text-slate-500 mb-4 flex items-center gap-2 uppercase tracking-wider">
+                                    <Camera size={16} /> Field Records Evidence / 现场铁证
+                                </h3>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 h-48">
+                                    {/* 视频占位符 1 */}
+                                    <div className="bg-black/10 rounded-lg flex flex-col items-center justify-center text-slate-400 hover:bg-black/20 transition-colors cursor-pointer border border-dashed border-slate-300 group relative overflow-hidden">
+                                        <video src="v1.mp4" className="w-full h-full object-cover" controls />
+                                        <div className="absolute bottom-2 left-2 text-xs text-white font-medium bg-black/50 px-2 py-1 rounded">采访录像 01</div>
+                                    </div>
+                                    {/* 图片占位符 1 */}
+                                    <div className="bg-white rounded-lg flex flex-col items-center justify-center text-slate-400 border border-slate-200 group hover:shadow-md transition-shadow relative overflow-hidden">
+                                        <img src="p1.jpg" alt="工资条实拍" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                        <div className="absolute bottom-0 left-0 w-full bg-black/50 p-1">
+                                            <span className="text-xs font-medium text-white block text-center">工资条实拍.jpg</span>
+                                        </div>
+                                    </div>
+                                    {/* 视频占位符 2 */}
+                                    <div className="bg-black/10 rounded-lg flex flex-col items-center justify-center text-slate-400 hover:bg-black/20 transition-colors cursor-pointer border border-dashed border-slate-300 group relative overflow-hidden">
+                                        <video src="v2.mp4" className="w-full h-full object-cover" controls />
+                                        <div className="absolute bottom-2 left-2 text-xs text-white font-medium bg-black/50 px-2 py-1 rounded">工作环境</div>
+                                    </div>
+                                    {/* 图片占位符 2 */}
+                                    <div className="bg-white rounded-lg flex flex-col items-center justify-center text-slate-400 border border-slate-200 group hover:shadow-md transition-shadow relative overflow-hidden">
+                                        <img src="p2.jpg" alt="排班表" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+                                        <div className="absolute bottom-0 left-0 w-full bg-black/50 p-1">
+                                            <span className="text-xs font-medium text-white block text-center">排班表.jpg</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="text-[10px] text-slate-400 mt-3 text-right italic">* All evidence collected on-site in Xiamen, Nov 2025.</p>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {/* 课题二：历史与政治 */}
+                    <section id="history" className="py-20 bg-white">
+                        <div className="container mx-auto px-6 max-w-5xl">
+                            <div className="mb-16">
+                                <span className="text-amber-600 font-semibold tracking-wider text-sm uppercase">Academic Topic II</span>
+                                <h2 className="text-3xl font-bold text-slate-900 mt-2 mb-6">厦门历史与政治演变</h2>
+                                <div className="w-20 h-1 bg-amber-500 mb-8"></div>
+                                
+                                {/* 历史时间轴 */}
+                                <div className="relative border-l-2 border-slate-200 ml-3 space-y-12">
+                                    <div className="relative pl-8">
+                                        <div className="absolute -left-[9px] top-0 w-4 h-4 bg-amber-500 rounded-full border-4 border-white shadow-sm"></div>
+                                        <h4 className="text-lg font-bold text-slate-800">1842 - 1902: 通商与租界</h4>
+                                        <p className="text-slate-600 text-sm mt-2">
+                                            《南京条约》后，厦门成为五口通商口岸之一。1902年《鼓浪屿公共地界章程》签订，鼓浪屿沦为公共租界，万国建筑群在此期间拔地而起，标志着西方政治势力正式介入。
+                                        </p>
+                                    </div>
+                                    <div className="relative pl-8">
+                                        <div className="absolute -left-[9px] top-0 w-4 h-4 bg-amber-500 rounded-full border-4 border-white shadow-sm"></div>
+                                        <h4 className="text-lg font-bold text-slate-800">1949 - 1979: 海防前线</h4>
+                                        <p className="text-slate-600 text-sm mt-2">
+                                            新中国成立后，厦门长期处于两岸军事对峙的最前沿（如“八二三炮战”）。城市建设完全服务于军事战备，经济发展停滞，政治氛围高度紧张。
+                                        </p>
+                                    </div>
+                                    <div className="relative pl-8">
+                                        <div className="absolute -left-[9px] top-0 w-4 h-4 bg-amber-500 rounded-full border-4 border-white shadow-sm"></div>
+                                        <h4 className="text-lg font-bold text-slate-800">1980 - 至今: 经济特区与现代化</h4>
+                                        <p className="text-slate-600 text-sm mt-2">
+                                            设立经济特区标志着历史性的转折。从战壕密布的海防前哨，蜕变为两岸融合发展的示范区。然而，高速的城市化也带来了全新的社会治理挑战。
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 政治对比板块：社会治理与政治架构 - BBC Style Dark/Gold Split */}
+                            <div className="rounded-3xl overflow-hidden shadow-2xl flex flex-col md:flex-row mb-16">
+                                
+                                {/* 九州板块：独C与监控 (Dark/Gray/Red) */}
+                                <div className="md:w-1/2 bg-[#2a2a2a] p-8 md:p-12 text-white border-r border-slate-700 relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-red-600"></div>
+                                    <div className="mb-10">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="p-2 bg-red-600 rounded text-white">
+                                                <Lock size={24} />
+                                            </div>
+                                            <h3 className="text-2xl font-bold text-red-500 tracking-tight">九州 (Rabbit)</h3>
+                                        </div>
+                                        <h4 className="text-3xl font-black text-white uppercase tracking-tighter">独C与监控</h4>
+                                        <p className="text-xs text-red-400 font-mono mt-1 tracking-widest uppercase">Authoritarian & Surveillance</p>
+                                    </div>
+
+                                    <div className="space-y-8">
+                                        <div className="relative pl-4 border-l border-red-800">
+                                            <h5 className="font-bold text-lg text-slate-200 mb-1 flex items-center gap-2">
+                                                <Shield size={18} className="text-red-600"/> 利维坦式治理 (Leviathan State)
+                                            </h5>
+                                            <p className="text-sm text-slate-400 leading-relaxed">
+                                                国家权力无限扩张，个人权利被极度压缩。从网格化管理到社会信用体系，构建了无处不在的控制网络。
+                                            </p>
+                                        </div>
+
+                                        <div className="relative pl-4 border-l border-red-800">
+                                            <h5 className="font-bold text-lg text-slate-200 mb-1 flex items-center gap-2">
+                                                <Eye size={18} className="text-red-600"/> 天网工程 (Skynet)
+                                            </h5>
+                                            <p className="text-sm text-slate-400 leading-relaxed">
+                                                数亿个摄像头配合人脸识别，将每个公民变成透明的数据节点。安全是以牺牲所有隐私为代价的。
+                                            </p>
+                                        </div>
+
+                                        <div className="relative pl-4 border-l border-red-800">
+                                            <h5 className="font-bold text-lg text-slate-200 mb-1 flex items-center gap-2">
+                                                <Mic2 size={18} className="text-red-600"/> 舆论一律 (Censorship)
+                                            </h5>
+                                            <p className="text-sm text-slate-400 leading-relaxed">
+                                                缺乏异议表达空间。任何对政策的质疑都可能被视为不稳定因素而被消除。效率建立在沉默之上。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* 澳洲板块：民主与自由 (Bright/Gold/Yellow) */}
+                                <div className="md:w-1/2 bg-yellow-50 p-8 md:p-12 text-slate-900 relative overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-1 bg-yellow-500"></div>
+                                    <div className="mb-10">
+                                        <div className="flex items-center gap-3 mb-2">
+                                            <div className="p-2 bg-yellow-500 rounded text-yellow-950">
+                                                <Vote size={24} />
+                                            </div>
+                                            <h3 className="text-2xl font-bold text-yellow-700 tracking-tight">澳洲 (AU)</h3>
+                                        </div>
+                                        <h4 className="text-3xl font-black text-slate-900 uppercase tracking-tighter">民主与自由</h4>
+                                        <p className="text-xs text-yellow-600 font-mono mt-1 tracking-widest uppercase">Democracy & Liberty</p>
+                                    </div>
+
+                                    <div className="space-y-8">
+                                        <div className="relative pl-4 border-l border-yellow-300">
+                                            <h5 className="font-bold text-lg text-slate-800 mb-1 flex items-center gap-2">
+                                                <Users size={18} className="text-yellow-600"/> 公民契约 (Social Contract)
+                                            </h5>
+                                            <p className="text-sm text-slate-600 leading-relaxed">
+                                                政府权力源于被统治者的同意。社区议会制度确保了即使是修路砍树这样的小事，也必须经过充分的公众听证。
+                                            </p>
+                                        </div>
+
+                                        <div className="relative pl-4 border-l border-yellow-300">
+                                            <h5 className="font-bold text-lg text-slate-800 mb-1 flex items-center gap-2">
+                                                <Shield size={18} className="text-yellow-600"/> 隐私神圣 (Privacy Act)
+                                            </h5>
+                                            <p className="text-sm text-slate-600 leading-relaxed">
+                                                严苛的隐私法案限制了公权力对个人数据的收集。强调“我的生活属于我自己”，而非国家。
+                                            </p>
+                                        </div>
+
+                                        <div className="relative pl-4 border-l border-yellow-300">
+                                            <h5 className="font-bold text-lg text-slate-800 mb-1 flex items-center gap-2">
+                                                <Scale size={18} className="text-yellow-600"/> 法治与制衡 (Rule of Law)
+                                            </h5>
+                                            <p className="text-sm text-slate-600 leading-relaxed">
+                                                独立的司法体系与自由的媒体构成双重保险。权力的运行在阳光下，允许并鼓励不同的声音。
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            {/* Political Images Gallery z1, z2, z3 */}
+                            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div className="h-64 rounded-xl overflow-hidden shadow-lg group relative border border-slate-200">
+                                    <img src="z1.jpg" alt="Political Scene 1" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                        onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                                </div>
+                                <div className="h-64 rounded-xl overflow-hidden shadow-lg group relative border border-slate-200">
+                                    <img src="z2.jpg" alt="Political Scene 2" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                        onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                                </div>
+                                <div className="h-64 rounded-xl overflow-hidden shadow-lg group relative border border-slate-200">
+                                    <img src="z3.jpg" alt="Political Scene 3" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                                        onError={(e) => { e.target.onerror = null; e.target.style.display = 'none'; }}
+                                    />
+                                    <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+
+                    {/* 课题三：特色美食 */}
+                    <section id="food" className="py-20 bg-slate-900 text-white">
+                        <div className="container mx-auto px-6 max-w-6xl">
+                            <div className="text-center mb-16">
+                                <span className="text-orange-400 font-semibold tracking-wider text-sm uppercase">Academic Topic III</span>
+                                <h2 className="text-3xl md:text-4xl font-bold mt-2">舌尖上的厦门</h2>
+                                <p className="text-slate-400 mt-4">饮食是文化的载体，我们通过味蕾解构闽南文化。</p>
+                            </div>
+
+                            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {/* Food Card 1 */}
+                                <div className="bg-slate-800 rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 group">
+                                    <div className="h-40 overflow-hidden">
+                                        <img src="m1.jpg" alt="沙茶面" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                    </div>
+                                    <div className="p-5">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h3 className="text-lg font-bold">沙茶面</h3>
+                                            <span className="px-2 py-1 bg-orange-500/20 text-orange-400 text-[10px] rounded">必吃榜</span>
+                                        </div>
+                                        <p className="text-slate-400 text-xs mb-3 line-clamp-3">
+                                            源于东南亚的沙茶酱与闽南饮食的融合，象征着厦门作为侨乡的文化包容性。
+                                        </p>
+                                        <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                                            <Utensils size={12} />
+                                            <span>四里沙茶面</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Food Card 2 */}
+                                <div className="bg-slate-800 rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 group">
+                                    <div className="h-40 overflow-hidden">
+                                        <img src="m2.jpg" alt="海蛎煎" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                    </div>
+                                    <div className="p-5">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h3 className="text-lg font-bold">海蛎煎</h3>
+                                            <span className="px-2 py-1 bg-blue-500/20 text-blue-400 text-[10px] rounded">海味</span>
+                                        </div>
+                                        <p className="text-slate-400 text-xs mb-3 line-clamp-3">
+                                            选取新鲜海蛎，拌入地瓜粉煎至金黄。靠海吃海的生存智慧体现。
+                                        </p>
+                                        <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                                            <Utensils size={12} />
+                                            <span>莲欢海蛎煎</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Food Card 3 */}
+                                <div className="bg-slate-800 rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 group">
+                                    <div className="h-40 overflow-hidden">
+                                        <img src="m3.jpg" alt="姜母鸭" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                    </div>
+                                    <div className="p-5">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h3 className="text-lg font-bold">姜母鸭</h3>
+                                            <span className="px-2 py-1 bg-red-500/20 text-red-400 text-[10px] rounded">滋补</span>
+                                        </div>
+                                        <p className="text-slate-400 text-xs mb-3 line-clamp-3">
+                                            用大量的姜母和麻油煲煮。反映了闽南人"药食同源"的养生理念。
+                                        </p>
+                                        <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                                            <Utensils size={12} />
+                                            <span>灌口姜母鸭</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Food Card 4 - New Item */}
+                                <div className="bg-slate-800 rounded-2xl overflow-hidden hover:transform hover:-translate-y-2 transition-all duration-300 group ring-2 ring-yellow-500/20">
+                                    <div className="h-40 overflow-hidden relative">
+                                        <img src="m4.jpg" alt="土笋冻" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                                        <div className="absolute top-2 right-2 bg-yellow-600 text-white text-[10px] font-bold px-2 py-1 rounded shadow-lg">New</div>
+                                    </div>
+                                    <div className="p-5">
+                                        <div className="flex justify-between items-center mb-2">
+                                            <h3 className="text-lg font-bold text-yellow-100">土笋冻</h3>
+                                            <span className="px-2 py-1 bg-purple-500/20 text-purple-300 text-[10px] rounded">特色</span>
+                                        </div>
+                                        <p className="text-slate-400 text-xs mb-3 line-clamp-3">
+                                            海边滩涂"土笋"（星虫）熬煮而成的胶原蛋白冻。口感Q弹，搭配蒜蓉酱，是厦门独有的"暗黑"美味。
+                                        </p>
+                                        <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                                            <Utensils size={12} />
+                                            <span>天河西门土笋冻</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* 团队介绍 */}
+                    <section id="team" className="py-20 bg-blue-50">
+                        <div className="container mx-auto px-6 max-w-5xl">
+                            <div className="text-center mb-12">
+                                <h2 className="text-3xl font-bold text-slate-900">研究小组</h2>
+                                <p className="text-slate-600 mt-2">The Research Team</p>
+                            </div>
+                            
+                            <div className="grid md:grid-cols-3 gap-8">
+                                {/* Member 1 */}
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-100 text-center">
+                                    <div className="w-20 h-20 bg-blue-100 rounded-full mx-auto mb-4 flex items-center justify-center text-blue-500">
+                                        <Users size={32} />
+                                    </div>
+                                    <h3 className="font-bold text-lg">况伟达</h3>
+                                    <p className="text-sm text-slate-500 mb-4">数据分析 / 摄影</p>
+                                    <p className="text-xs text-slate-400">"负责本次行程的购买力数据收集与图表制作。"</p>
+                                </div>
+                                {/* Member 2 */}
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-100 text-center relative overflow-hidden">
+                                    <div className="w-20 h-20 bg-indigo-100 rounded-full mx-auto mb-4 flex items-center justify-center text-indigo-500">
+                                        <Users size={32} />
+                                    </div>
+                                    <h3 className="font-bold text-lg">曾奕成</h3>
+                                    <p className="text-sm text-slate-500 mb-4">历史调研 / 采访</p>
+                                    <p className="text-xs text-slate-400">"负责行程规划及博物馆历史文献的整理。"</p>
+                                </div>
+                                {/* Member 3 */}
+                                <div className="bg-white p-6 rounded-xl shadow-sm border border-blue-100 text-center">
+                                    <div className="w-20 h-20 bg-orange-100 rounded-full mx-auto mb-4 flex items-center justify-center text-orange-500">
+                                        <Users size={32} />
+                                    </div>
+                                    <h3 className="font-bold text-lg">代奕晨</h3>
+                                    <p className="text-sm text-slate-500 mb-4">美食记录</p>
+                                    <p className="text-xs text-slate-400">"负责穿梭街巷寻找地道风味，整理美食测评与推荐清单。"</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+                        <div className="container mx-auto px-6 text-center">
+                            <div className="flex justify-center items-center gap-2 mb-4 text-white font-bold text-xl">
+                                <BookOpen size={20} />
+                                <span>厦门游学报告 2025</span>
+                            </div>
+                            <p className="text-sm mb-6">
+                                考察时间: 2025.11.12 - 11.17 | 地点: 中国 · 厦门
+                            </p>
+                            <div className="text-xs text-slate-600">
+                                © 2025 Study Tour Group. All data gathered during the field trip.
+                            </div>
+                        </div>
+                    </footer>
+                </React.Fragment>
+            );
+        }
+
+        // --- 4. 主组件 (根组件) ---
+        function XiamenStudyTour() {
+            const [activeSection, setActiveSection] = useState('home');
+            const [scrolled, setScrolled] = useState(false);
+            const [currentView, setCurrentView] = useState('report'); // 'report' 或 'gallery'
+
+            // 监听滚动以改变导航栏样式
+            useEffect(() => {
+                const handleScroll = () => {
+                    setScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const scrollToSection = (id) => {
+                if (currentView === 'gallery') {
+                    setCurrentView('report');
+                    setTimeout(() => {
+                        const element = document.getElementById(id);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                            setActiveSection(id);
+                        }
+                    }, 100);
+                } else {
+                    const element = document.getElementById(id);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth' });
+                        setActiveSection(id);
+                    }
+                }
+            };
+
+            const navItems = [
+                { id: 'home', label: '首页' },
+                { id: 'intro', label: '游学概况' },
+                { id: 'economics', label: '购买力调研' },
+                { id: 'history', label: '历史政治' },
+                { id: 'food', label: '特色美食' },
+                { id: 'team', label: '研究小组' },
+            ];
+
+            return (
+                <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-blue-200">
+                    {/* 导航栏 */}
+                    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled || currentView === 'gallery' ? 'bg-white/95 backdrop-blur-md shadow-md py-3' : 'bg-transparent py-5'}`}>
+                        <div className="container mx-auto px-6 flex justify-between items-center">
+                            <div 
+                                className={`text-xl font-bold flex items-center gap-2 cursor-pointer ${scrolled || currentView === 'gallery' ? 'text-blue-900' : 'text-white'}`}
+                                onClick={() => { setCurrentView('report'); scrollToSection('home'); }}
+                            >
+                                <BookOpen size={24} />
+                                <span>厦门游学 2025</span>
+                            </div>
+                            
+                            <div className="flex items-center gap-6">
+                                <div className="hidden md:flex gap-6">
+                                    {navItems.map((item) => (
+                                        <button
+                                            key={item.id}
+                                            onClick={() => scrollToSection(item.id)}
+                                            className={`text-sm font-medium transition-colors hover:text-blue-400 ${
+                                                currentView === 'gallery' 
+                                                ? 'text-slate-600' 
+                                                : (scrolled ? 'text-slate-600' : 'text-white/90')
+                                            }`}
+                                        >
+                                            {item.label}
+                                        </button>
+                                    ))}
+                                </div>
+
+                                {/* 图库切换按钮 */}
+                                <button 
+                                    onClick={() => setCurrentView(currentView === 'report' ? 'gallery' : 'report')}
+                                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-semibold transition-all ${
+                                        currentView === 'gallery'
+                                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                                        : 'bg-white text-blue-900 shadow-sm hover:bg-blue-50'
+                                    }`}
+                                >
+                                    {currentView === 'report' ? (
+                                        <React.Fragment>
+                                            <Camera size={16} /> 影像纪实
+                                        </React.Fragment>
+                                    ) : (
+                                        <React.Fragment>
+                                            <BookOpen size={16} /> 返回报告
+                                        </React.Fragment>
+                                    )}
+                                </button>
+                            </div>
+                        </div>
+                    </nav>
+
+                    {/* 视图路由 */}
+                    {currentView === 'report' ? (
+                        <ReportView scrollToSection={scrollToSection} />
+                    ) : (
+                        <GalleryView onBack={() => setCurrentView('report')} />
+                    )}
+                </div>
+            );
+        }
+
+        // 5. 挂载到 DOM
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<XiamenStudyTour />);
+    </script>
+</body>
+</html>
